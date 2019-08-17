@@ -10,17 +10,9 @@ public class IndexController {
     public String get(){
         return "hello";
     }
-    @PostMapping
-    public String post(){
-        return "hello post";
-    }
-    @PutMapping
-    public String put(){
-        return "hello put";
-    }
-    @DeleteMapping
-    public String delete(){
-        return "hello delete";
+    @GetMapping("/login")
+   public String login (@RequestParam("login") String login,@RequestParam("senha") String senha){
+        return "login " + login + ", senha " + senha;
     }
 
 }
