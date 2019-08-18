@@ -10,11 +10,7 @@ public class IndexController {
     public String get(){
         return "hello";
     }
-    @GetMapping("/login/{login}/senha/{senha}")
-    // request = http://localhost:8080/login/allef/senha/sousa
-   public String login (@PathVariable("login") String login,@PathVariable("senha") String senha){
-        return "login " + login + ", senha " + senha;
-    }
+
 
 }
 
