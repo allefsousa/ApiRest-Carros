@@ -25,6 +25,7 @@ public class CarrosController {
         return service.getCarrosById(id);
     }
 
+
     @GetMapping("/tipo/{tipo}")
     public Iterable<Carro> getCarrosByTipo(@PathVariable("tipo") String tipo){
         return service.getCarrosByTipo(tipo);
@@ -34,6 +35,19 @@ public class CarrosController {
     public String postCarro(@RequestBody Carro carro){
         Carro retorno = service.saveCarro(carro);
         return "Carro salvo com sucesso: " + retorno.getId();
+    }
+
+    @PutMapping("/{id}")
+    public String putCarro(@PathVariable("id") Long id,@RequestBody Carro carro){
+        Carro retorno = service.update(carro,id);
+        return "Carro Atualizado com sucesso: " + retorno.getId();
+    }
+
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id){
+         service.deleteCarro(id);
+         return "Carro deletado com sucesso";
     }
 
 

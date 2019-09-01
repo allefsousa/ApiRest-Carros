@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +43,28 @@ public class CarroService {
 
     public Carro saveCarro(Carro carro) {
        return carroRepository.save(carro);
+    }
+
+    public Carro update(Carro carro, Long id) {
+        Assert.notNull(id,"Não foi possivel atualizar o registro");
+        Optional<Carro> optionalCarro = getCarrosById(id);
+        if (optionalCarro.isPresent()){
+            Carro db = optionalCarro.get();
+            db.setNome(carro.getNome());
+            db.setTipo(carro.getTipo());
+            System.out.println("Carro id " + db.getId());
+            carroRepository.save(db);
+            return db;
+        }else {
+            throw new RuntimeException("Não foi possivel atualizar o registro");
+        }
+    }
+
+    public void deleteCarro(Long id) {
+        Optional<Carro> carro = getCarrosById(id);
+        if (carro.isPresent()){
+            carroRepository.deleteById(id);
+        }
+
     }
 }
