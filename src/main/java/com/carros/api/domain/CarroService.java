@@ -39,4 +39,8 @@ public class CarroService {
     public Iterable<Carro> getCarrosByTipo(String tipo) {
         return carroRepository.findByTipo(tipo);
     }
+
+    public Carro saveCarro(Carro carro) {
+       return carroRepository.save(carro);
+    }
 }

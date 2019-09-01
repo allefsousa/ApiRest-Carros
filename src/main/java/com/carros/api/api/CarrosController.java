@@ -3,10 +3,7 @@ package com.carros.api.api;
 import com.carros.api.domain.Carro;
 import com.carros.api.domain.CarroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -31,6 +28,12 @@ public class CarrosController {
     @GetMapping("/tipo/{tipo}")
     public Iterable<Carro> getCarrosByTipo(@PathVariable("tipo") String tipo){
         return service.getCarrosByTipo(tipo);
+    }
+
+    @PostMapping
+    public String postCarro(@RequestBody Carro carro){
+        Carro retorno = service.saveCarro(carro);
+        return "Carro salvo com sucesso: " + retorno.getId();
     }
 
 
