@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarroService {
@@ -29,5 +30,9 @@ public class CarroService {
         carros.add(new Carro(3L,"I30"));
         logger.info("Retornando carros");
         return carros;
+    }
+
+    public Optional<Carro> getCarrosById(Long id) {
+        return carroRepository.findById(id);
     }
 }
