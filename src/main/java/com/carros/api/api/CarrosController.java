@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,14 +26,28 @@ public class CarrosController {
 
 
   @GetMapping("/{id}")
-    public Optional<Carro> get(@PathVariable Long id){
-        return service.getCarrosById(id);
+    public ResponseEntity get(@PathVariable Long id){
+        Optional<Carro> carro  = service.getCarrosById(id);
+//        if (carro.isPresent()){
+//            return ResponseEntity.ok(carro.get());
+//        }else {
+//            return ResponseEntity.notFound().build();
+//        }
+
+//      //Ternario
+//      return carro.isPresent() ? ResponseEntity.ok(carro.get()) : ResponseEntity.notFound().build();
+      return carro.map(car ->ResponseEntity.ok(car))
+              .orElse(ResponseEntity.notFound().build());
+
+
     }
 
 
     @GetMapping("/tipo/{tipo}")
-    public Iterable<Carro> getCarrosByTipo(@PathVariable("tipo") String tipo){
-        return service.getCarrosByTipo(tipo);
+    public ResponseEntity getCarrosByTipo(@PathVariable("tipo") String tipo){
+        List<Carro> carros =  service.getCarrosByTipo(tipo);
+        return carros.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(carros);
+
     }
 
     @PostMapping
