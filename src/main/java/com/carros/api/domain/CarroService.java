@@ -35,4 +35,8 @@ public class CarroService {
     public Optional<Carro> getCarrosById(Long id) {
         return carroRepository.findById(id);
     }
+
+    public Iterable<Carro> getCarrosByTipo(String tipo) {
+        return carroRepository.findByTipo(tipo);
+    }
 }
