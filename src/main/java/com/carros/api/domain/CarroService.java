@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,15 +49,16 @@ public class CarroService {
             return CarroDTO.create(db);
         }else {
             return null;
-//            throw new RuntimeException("Não foi possivel atualizar o registro");
         }
     }
 
-    public void deleteCarro(Long id) {
+    public boolean deleteCarro(Long id) {
 
         if (getCarrosById(id).isPresent()){
             carroRepository.deleteById(id);
+            return true;
         }
+        return false;
 
     }
 }
