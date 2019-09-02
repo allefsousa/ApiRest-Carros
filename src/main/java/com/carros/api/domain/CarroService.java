@@ -38,20 +38,20 @@ public class CarroService {
         return CarroDTO.create(carroRepository.save(carro));
     }
 
-    public Carro update(Carro carro, Long id) {
-//        Assert.notNull(id,"Não foi possivel atualizar o registro");
-//        Optional<Carro> optionalCarro = getCarrosById(id);
-//        if (optionalCarro.isPresent()){
-//            Carro db = optionalCarro.get();
-//            db.setNome(carro.getNome());
-//            db.setTipo(carro.getTipo());
-//            System.out.println("Carro id " + db.getId());
-//            carroRepository.save(db);
-//            return db;
-//        }else {
+    public CarroDTO update(Carro carro, Long id) {
+        Assert.notNull(id,"Não foi possivel atualizar o registro");
+        Optional<Carro> optionalCarro = carroRepository.findById(id);
+        if (optionalCarro.isPresent()){
+            Carro db = optionalCarro.get();
+            db.setNome(carro.getNome());
+            db.setTipo(carro.getTipo());
+            System.out.println("Carro id " + db.getId());
+            carroRepository.save(db);
+            return CarroDTO.create(db);
+        }else {
+            return null;
 //            throw new RuntimeException("Não foi possivel atualizar o registro");
-//        }
-        return null;
+        }
     }
 
     public void deleteCarro(Long id) {
