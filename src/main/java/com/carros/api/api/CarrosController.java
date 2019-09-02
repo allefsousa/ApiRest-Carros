@@ -2,11 +2,14 @@ package com.carros.api.api;
 
 import com.carros.api.domain.Carro;
 import com.carros.api.domain.CarroService;
+import com.carros.api.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +22,7 @@ public class CarrosController {
 
 
     @GetMapping
-    public ResponseEntity<Iterable<Carro> >get(){
+    public ResponseEntity<List<CarroDTO> >get(){
         return  ResponseEntity.ok(service.getCarros()); //resumid version
 //        return new ResponseEntity<>(service.getCarros(), HttpStatus.OK); // full version
     }
@@ -27,7 +30,7 @@ public class CarrosController {
 
   @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id){
-        Optional<Carro> carro  = service.getCarrosById(id);
+        Optional<CarroDTO> carro  = service.getCarrosById(id);
 //        if (carro.isPresent()){
 //            return ResponseEntity.ok(carro.get());
 //        }else {
@@ -45,15 +48,24 @@ public class CarrosController {
 
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity getCarrosByTipo(@PathVariable("tipo") String tipo){
-        List<Carro> carros =  service.getCarrosByTipo(tipo);
+        List<CarroDTO> carros =  service.getCarrosByTipo(tipo);
         return carros.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(carros);
 
     }
 
     @PostMapping
-    public String postCarro(@RequestBody Carro carro){
-        Carro retorno = service.saveCarro(carro);
-        return "Carro salvo com sucesso: " + retorno.getId();
+    public ResponseEntity postCarro(@RequestBody Carro carro){
+        try{
+            CarroDTO retorno = service.saveCarro(carro);
+            URI localtion = getUri(retorno.getId());
+            return ResponseEntity.created(localtion).build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    private URI getUri(Long id){
+        return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(id).toUri();
     }
 
     @PutMapping("/{id}")
