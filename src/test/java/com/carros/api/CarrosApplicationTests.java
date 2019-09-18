@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -46,7 +47,20 @@ public class CarrosApplicationTests {
 	}
 
 	@Test
-	public void contextLoads() {
+	public void testList() {
+		List<CarroDTO> carros = service.getCarros();
+		assertEquals(30,carros.size());
+
+	}
+
+	@Test
+	public void testCarro() {
+
+		Optional<CarroDTO> op = service.getCarrosById(11L);
+		assertTrue(op.isPresent());
+		CarroDTO carroDTO = op.get();
+		assertEquals("Ferrari FF",carroDTO.getNome());
+
 	}
 
 }
