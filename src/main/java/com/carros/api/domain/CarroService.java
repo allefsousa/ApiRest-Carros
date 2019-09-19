@@ -1,6 +1,7 @@
 package com.carros.api.domain;
 
 
+import com.carros.api.api.exception.ObjectNotFoundException;
 import com.carros.api.domain.dto.CarroDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,9 @@ public class CarroService {
         return carroRepository.findAll().stream().map(CarroDTO::create).collect(Collectors.toList());
     }
 
-    public Optional<CarroDTO> getCarrosById(Long id) {
-        return carroRepository.findById(id).map(CarroDTO::create);
+    public CarroDTO getCarrosById(Long id) {
+        Optional<Carro> carro = carroRepository.findById(id);
+        return carro.map(CarroDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
     }
 
     public List<CarroDTO> getCarrosByTipo(String tipo) {
@@ -33,6 +35,7 @@ public class CarroService {
     }
 
     public CarroDTO saveCarro(Carro carro) {
+        Assert.isNull(carro.getId(),"Não Possivel Inserir o registro");
 
         return CarroDTO.create(carroRepository.save(carro));
     }

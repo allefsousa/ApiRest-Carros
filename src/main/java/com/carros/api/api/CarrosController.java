@@ -30,19 +30,8 @@ public class CarrosController {
 
   @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id){
-        Optional<CarroDTO> carro  = service.getCarrosById(id);
-//        if (carro.isPresent()){
-//            return ResponseEntity.ok(carro.get());
-//        }else {
-//            return ResponseEntity.notFound().build();
-//        }
-
-//      //Ternario
-//      return carro.isPresent() ? ResponseEntity.ok(carro.get()) : ResponseEntity.notFound().build();
-      return carro.map(car ->ResponseEntity.ok(car))
-              .orElse(ResponseEntity.notFound().build());
-
-
+       CarroDTO carro  = service.getCarrosById(id);
+      return ResponseEntity.ok(carro);
     }
 
 
@@ -55,13 +44,9 @@ public class CarrosController {
 
     @PostMapping
     public ResponseEntity postCarro(@RequestBody Carro carro){
-        try{
             CarroDTO retorno = service.saveCarro(carro);
             URI localtion = getUri(retorno.getId());
             return ResponseEntity.created(localtion).build();
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
     }
     private URI getUri(Long id){
         return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
