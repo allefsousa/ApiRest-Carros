@@ -2,6 +2,7 @@ package com.carros.api.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -26,7 +27,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .contact(new Contact("Allef Sousa", "", ""))
+                .contact(new Contact("Ricardo Lecheta", "", ""))
                 .title("Carros")
                 .description("Documentação API dos Carros")
                 .license("Apache Licence Version 2.0")
