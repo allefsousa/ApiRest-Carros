@@ -88,7 +88,7 @@ public class CarrosAPITest {
 
         assertNotNull(c);
         assertEquals("Porshe",c.getNome());
-        assertEquals("esportivos",c.getTipo());
+        assertEquals("Esportivo",c.getTipo());
 
         //deletar objeto
         rest.delete(location);
