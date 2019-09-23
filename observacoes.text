@@ -1,0 +1,3 @@
+Ao Adicionar a dependencia do Spring Secutiry ao projeto
+o mesmo já implementa uma segurança Basic Auth
+para que o client possa realizar requisições seguras.
