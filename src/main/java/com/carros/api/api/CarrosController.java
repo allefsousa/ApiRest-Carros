@@ -6,6 +6,7 @@ import com.carros.api.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -43,6 +44,7 @@ public class CarrosController {
     }
 
     @PostMapping
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity postCarro(@RequestBody Carro carro){
             CarroDTO retorno = service.saveCarro(carro);
             URI localtion = getUri(retorno.getId());

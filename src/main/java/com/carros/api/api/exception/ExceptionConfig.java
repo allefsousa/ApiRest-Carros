@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -34,6 +35,13 @@ public class ExceptionConfig extends ResponseEntityExceptionHandler {
         return ResponseEntity.notFound().build();
     }
 
+    @ExceptionHandler({
+            AccessDeniedException.class
+    })
+    public ResponseEntity accessDenied(){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionError("Acesso Negado"));
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -49,4 +57,5 @@ public class ExceptionConfig extends ResponseEntityExceptionHandler {
             return error;
         }
     }
+
 }
